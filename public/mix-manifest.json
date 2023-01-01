@@ -1,0 +1,22 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/restaurant/admin/css/bootstrap-extended.css": "/restaurant/admin/css/bootstrap-extended.css",
+    "/restaurant/admin/css/colors.css": "/restaurant/admin/css/colors.css",
+    "/restaurant/admin/css/components-lite.css": "/restaurant/admin/css/components-lite.css",
+    "/restaurant/admin/css/app-lite.css": "/restaurant/admin/css/app-lite.css",
+    "/restaurant/admin/css/vendors.css": "/restaurant/admin/css/vendors.css",
+    "/restaurant/admin/css/core/colors/palette-variables.css": "/restaurant/admin/css/core/colors/palette-variables.css",
+    "/restaurant/admin/css/core/colors/palette-gradient.css": "/restaurant/admin/css/core/colors/palette-gradient.css",
+    "/restaurant/admin/css/core/colors/palette-switch.css": "/restaurant/admin/css/core/colors/palette-switch.css",
+    "/restaurant/admin/css/core/colors/palette-tooltip.css": "/restaurant/admin/css/core/colors/palette-tooltip.css",
+    "/restaurant/admin/css/core/menu/menu-types/vertical-menu.css": "/restaurant/admin/css/core/menu/menu-types/vertical-menu.css",
+    "/restaurant/admin/css/core/menu/menu-types/vertical-overlay-menu.css": "/restaurant/admin/css/core/menu/menu-types/vertical-overlay-menu.css",
+    "/restaurant/admin/css/core/mixins/callout.css": "/restaurant/admin/css/core/mixins/callout.css",
+    "/restaurant/admin/css/core/mixins/hex2rgb.css": "/restaurant/admin/css/core/mixins/hex2rgb.css",
+    "/restaurant/admin/css/core/mixins/main-menu-mixin.css": "/restaurant/admin/css/core/mixins/main-menu-mixin.css",
+    "/restaurant/admin/css/core/mixins/transitions.css": "/restaurant/admin/css/core/mixins/transitions.css",
+    "/restaurant/admin/js/app-lite.js": "/restaurant/admin/js/app-lite.js",
+    "/restaurant/admin/js/core/libraries/bootstrap.min.js": "/restaurant/admin/js/core/libraries/bootstrap.min.js",
+    "/restaurant/admin/js/core/libraries/jquery.min.js": "/restaurant/admin/js/core/libraries/jquery.min.js"
+}
