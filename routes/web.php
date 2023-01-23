@@ -19,21 +19,21 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth','pemohonRole'])->group(function(){
     Route::resource('jualbeli','AkteJualBeliController', ['only' => 'destroy']);
     Route::resource('perseroancommanditer','PerseroanCommanditerController', ['only' => 'destroy']);
     Route::resource('perseroanterbatas','PerseroanTerbatasController', ['only' => 'destroy']);
-    Route::middleware('role:pemohon')->group(function() {
-        Route::resource('jualbeli','AkteJualBeliController', ['except' => 'destroy']);
-        Route::resource('perseroancommanditer','PerseroanCommanditerController', ['except' => 'destroy']);
-        Route::resource('perseroanterbatas','PerseroanTerbatasController', ['except' => 'destroy']);
-    });
+    // Route::middleware('role:pemohon')->group(function() {
+        Route::resource('jualbeli','AkteJualBeliController');
+        Route::resource('perseroancommanditer','PerseroanCommanditerController');
+        Route::resource('perseroanterbatas','PerseroanTerbatasController');
+    // });
 });
 
-Route::middleware(['auth','role:admin'])->group(function(){
-    Route::resource('jualbeli','AkteJualBeliController', ['only' => 'destroy']);
-    Route::resource('perseroancommanditer','PerseroanCommanditerController', ['only' => 'destroy']);
-    Route::resource('perseroanterbatas','PerseroanTerbatasController', ['only' => 'destroy']);
+Route::middleware(['auth','adminRole'])->group(function(){
+    Route::resource('admin/jualbeli','AkteJualBeliController', ['only' => 'destroy']);
+    Route::resource('admin/perseroancommanditer','PerseroanCommanditerController', ['only' => 'destroy']);
+    Route::resource('admin/perseroanterbatas','PerseroanTerbatasController', ['only' => 'destroy']);
     Route::resource('user','UserController');
     Route::get('/admin/data-pesanan/jualbeli', 'DataPesananAkta@jualbeli')->name('datapesanan.jualbeli');
     Route::get('/admin/data-pesanan/komanditer', 'DataPesananAkta@komanditer')->name('datapesanan.komanditer');
@@ -57,3 +57,12 @@ Route::get('/persero/encrypt/{id}/{status}','PerseroRSA@encrypt', ['only' => 'de
 
 Route::get('/jual/decyprt/{id}','JualBeliRSA@decrypt', ['only' => 'destroy'])->name('rsa.jual.command.decyprt');
 Route::get('/jual/encrypt/{id}','JualBeliRSA@encrypt', ['only' => 'destroy'])->name('rsa.jual.command.encrpty');
+
+//cetak
+// Route::get('/perseroanterbatas/cetak/pdf', 'PerseroanTerbatasController@cetak')->middleware('auth')->name('perseroanterbatas.cetak');
+// Route::get('/perseroancommanditer/cetak/pdf', 'PerseroanCommanditerController@cetak')->middleware('auth')->name('perseroancommanditer.cetak');
+// Route::get('/jualbeli/cetak/pdf', 'AkteJualBeli@cetak')->middleware('auth')->name('aktejualbeli.cetak');
+
+Route::get('/admin/data-pesanan/jualbeli/cetak/pdf', 'DataPesananAkta@cetakJualBeli')->middleware('auth')->name('jualbeli.cetak');
+Route::get('/admin/data-pesanan/komoditer/cetak/pdf', 'DataPesananAkta@cetakCommanditer')->middleware('auth')->name('komoditer.cetak');
+Route::get('/admin/data-pesanan/terbatas/cetak/pdf', 'DataPesananAkta@cetakTerbatas')->middleware('auth')->name('terbatas.cetak');

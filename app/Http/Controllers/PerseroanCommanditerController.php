@@ -12,6 +12,7 @@ use Image;
 
 use \phpseclib\Crypt\RSA;
 use \phpseclib\Crypt\RSA as Crypt_RSA;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class PerseroanCommanditerController extends Controller
 {
@@ -27,8 +28,9 @@ class PerseroanCommanditerController extends Controller
      */
     public function index()
     {
-        $data = PerseroanCommanditer::all();
-        return view('pemohon.sidebar.perseroan_commanditer.index')->with('data', $data);
+        $user = User::find(Auth::user()->id);
+        $data = PerseroanCommanditer::where('user_id', $user->id)->get();
+        return view('pemohon.sidebar.perseroan_commanditer.index')->with(['data'=> $data]);
     }
 
     /**
@@ -214,5 +216,19 @@ class PerseroanCommanditerController extends Controller
         $data = PerseroanCommanditer::find($perseroanCommanditer);
         $data->delete();
         return redirect()->back();
+    }
+
+    public function cetak()
+    {
+        $user = User::with('model_has_role')->where('id', Auth::id())->first();
+
+        //notaris
+        if($user->model_has_role->model_id == 1){
+            return redirect()->back();    
+        }
+
+        $perseroanCommanditer = PerseroanCommanditer::where('user_id', $user->id)->get()->toArray();
+        $pdf = PDF::loadView('laporan.perseroan_commanditer', ['perseroanCommanditer'=>$perseroanCommanditer, 'user'=> $user->toArray()]);
+        return $pdf->stream('commanditer.pdf');
     }
 }

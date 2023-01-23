@@ -37,6 +37,7 @@
                 <div class="card-content">
                     <div class="card-body">
                         <h4 class="card-title">Semua Data Pengajuan Akta Perseroan Komanditer</h4>
+                       
                         <table id="example" class="display" style="width:100%">
                             <thead>
                                 <tr>
@@ -82,7 +83,7 @@
 										@endif
 									</td>    
                                     <td>
-                                        <!-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $key->id }}">
+                                       <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $key->id }}">
                                             <i class="la la-trash"></i>
                                         </button>
                                         <div class="modal fade" id="deleteModal{{ $key->id }}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ $key->id }}" aria-hidden="true">
@@ -110,7 +111,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
                                         <a href="{{ route('perseroancommanditer.edit', $key->id) }}" class="btn btn-info btn-sm">
                                             <i class="la la-pencil"></i>
                                         </a>

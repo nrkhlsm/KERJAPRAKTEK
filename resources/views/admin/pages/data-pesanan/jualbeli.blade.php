@@ -53,6 +53,9 @@
                 <div class="card-content">
                     <div class="card-body">
                         <h4 class="card-title">Semua Data Jual Beli</h4>
+                        <a type="button" href="{{ route('komoditer.cetak') }}" target="__blank" class="btn btn-danger btn-sm">
+                            <i class="la la-file-pdf-o"></i>PDF
+                        </a>  
                         <div style="width: auto; overflow: auto">
                             <table id="example" class="display" style="width:100%">
                                 <thead>

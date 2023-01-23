@@ -12,6 +12,7 @@ use Image;
 
 use \phpseclib\Crypt\RSA;
 use \phpseclib\Crypt\RSA as Crypt_RSA;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class PerseroanTerbatasController extends Controller
 {
@@ -22,8 +23,9 @@ class PerseroanTerbatasController extends Controller
     }
     public function index()
     {
-        $data = PerseroanTerbatas::all();
-        return view('pemohon.sidebar.perseroan_terbatas.index')->with('data', $data);
+        $user = User::find(Auth::user()->id);
+        $data = PerseroanTerbatas::where('user_id', $user->id)->get();
+        return view('pemohon.sidebar.perseroan_terbatas.index')->with(['data'=> $data]);
     }
 
     /**
@@ -226,8 +228,23 @@ class PerseroanTerbatasController extends Controller
      */
     public function destroy($perseroanTerbatas)
     {
+
         $data = PerseroanTerbatas::find($perseroanTerbatas);
         $data->delete();
         return redirect()->back();
+    }
+
+    public function cetak()
+    {
+        $user = User::with('model_has_role')->where('id', Auth::id())->first();
+
+        //notaris
+        if($user->model_has_role->model_id == 1){
+            return redirect()->back();    
+        }
+
+        $perseroanTerbatas = PerseroanTerbatas::where('user_id', $user->id)->get()->toArray();
+        $pdf = PDF::loadView('laporan.perseroan_terbatas', ['perseroanTerbatas'=>$perseroanTerbatas, 'user'=> $user->toArray()]);
+        return $pdf->stream('perseroan.pdf');
     }
 }

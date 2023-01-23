@@ -28,7 +28,7 @@ class AkteJualBeliController extends Controller
     public function index()
     {
         $user = User::find(Auth::user()->id);
-        $data = AkteJualBeli::all();
+        $data = AkteJualBeli::where('user_id', $user->id)->get();
         return view('pemohon.sidebar.jualbeli.index')->with('data', $data);
     }
 

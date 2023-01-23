@@ -133,7 +133,7 @@
 											@endif
 										</td>
 										<td>
-											<!-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $key->id }}">
+											<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $key->id }}">
 												<i class="la la-trash"></i>
 											</button>
 											<div class="modal fade" id="deleteModal{{ $key->id }}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ $key->id }}" aria-hidden="true">
@@ -161,7 +161,7 @@
 														</div>
 													</div>
 												</div>
-											</div> -->
+											</div>
 											<a href="{{ route('jualbeli.edit', $key->id) }}" type="button" class="btn btn-info btn-sm">
 												<i class="la la-pencil"></i>
 											</a>
