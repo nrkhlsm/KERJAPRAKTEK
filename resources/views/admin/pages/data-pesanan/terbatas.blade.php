@@ -53,9 +53,20 @@
                 <div class="card-content">
                     <div class="card-body">
                         <h4 class="card-title">Semua Data Pengajuan Akta</h4>
-                        <a type="button" href="{{ route('terbatas.cetak') }}" target="__blank" class="btn btn-danger btn-sm">
-                            <i class="la la-file-pdf-o"></i>PDF
-                        </a>  
+                        <form action="{{ route('terbatas.cetak') }}" method="get" target="_blank">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="date" class="form-control" name="dateStart" required="wajib diisi">
+                                </div>
+                                <div class="col">
+                                    <input type="date" class="form-control" name="dateEnd" required="wajib diisi">
+                                </div>
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="la la-file-pdf-o"></i>PDF
+                            </button>
+                        </form>
                         <table id="example" class="display" style="width:100%">
                             <thead>
                                 <tr>
@@ -94,37 +105,49 @@
                                         <a href="{{ asset('asset/ktp/' . $key->ktp) }}" target="_blank">File KTP</a>
                                     </td>
                                     <td>
-                                        <a href="{{ asset('asset/npwp/' . $key->npwp_pribadi) }}" target="_blank">File NPWP</a>
+                                        <a href="{{ asset('asset/npwp/' . $key->npwp_pribadi) }}" target="_blank">File
+                                            NPWP</a>
                                     </td>
                                     <td>
-                                        <a href="{{ asset('asset/legal/' . $key->legalitas_badan_hukum) }}" target="_blank">File Legalitas Badan Hukum</a>
+                                        <a href="{{ asset('asset/legal/' . $key->legalitas_badan_hukum) }}"
+                                            target="_blank">File Legalitas Badan Hukum</a>
                                     </td>
                                     <td>
                                         @if($key->encrypt =='0')
-                                        <a class="btn btn-danger btn-sm" href="{{ route('rsa.persero.command.decyprt', [$key->id, 1]) }}">Terenkripsi</a>
+                                        <a class="btn btn-danger btn-sm"
+                                            href="{{ route('rsa.persero.command.decyprt', [$key->id, 1]) }}">Terenkripsi</a>
                                         @else
-                                        <a class="btn btn-success btn-sm" href="{{ route('rsa.persero.command.encrpty', [$key->id, 1]) }}">Terdekripsi</a>
+                                        <a class="btn btn-success btn-sm"
+                                            href="{{ route('rsa.persero.command.encrpty', [$key->id, 1]) }}">Terdekripsi</a>
                                         @endif
                                     </td>
                                     <td>
                                         @if($key->user->id != Auth::user()->id)
-                                        <form action="{{ route('datapesanan.terbatas.ubah-status', $key->id) }}" method="POST" hidden id="UpdateStatus">
+                                        <form action="{{ route('datapesanan.terbatas.ubah-status', $key->id) }}"
+                                            method="POST" hidden id="UpdateStatus">
                                             @csrf
                                         </form>
-                                        <a href="{{ route('datapesanan.terbatas.ubah-status', $key->id) }}" class="btn @if($key->status) btn-success @else btn-warning @endif btn-sm" onclick="
+                                        <a href="{{ route('datapesanan.terbatas.ubah-status', $key->id) }}"
+                                            class="btn @if($key->status) btn-success @else btn-warning @endif btn-sm"
+                                            onclick="
                                                 event.preventDefault();
                                                 document.getElementById('UpdateStatus').submit();">
                                             <i class="la la-check"></i>
                                         </a>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $key->id }}">
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                            data-target="#deleteModal{{ $key->id }}">
                                             <i class="la la-trash"></i>
                                         </button>
-                                        <div class="modal fade" id="deleteModal{{ $key->id }}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ $key->id }}" aria-hidden="true">
+                                        <div class="modal fade" id="deleteModal{{ $key->id }}" data-backdrop="static"
+                                            tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ $key->id }}"
+                                            aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteModalLabel{{ $key->id }}">Hapus Data</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <h5 class="modal-title" id="deleteModalLabel{{ $key->id }}">
+                                                            Hapus Data</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
@@ -132,12 +155,15 @@
                                                         Yakin ingin menghapus Data?
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="text-white btn btn-light" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="text-white btn btn-light"
+                                                            data-dismiss="modal">Close</button>
                                                         <button type="button" class="btn btn-danger" onclick="
                                                             event.preventDefault();
                                                             document.getElementById('delete-form{{$key->id}}').submit();
                                                         ">Hapus</button>
-                                                        <form id="delete-form{{$key->id}}" action="{{ route('perseroanterbatas.destroy', $key->id) }}" method="POST" style="display: none;">
+                                                        <form id="delete-form{{$key->id}}"
+                                                            action="{{ route('perseroanterbatas.destroy', $key->id) }}"
+                                                            method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')
                                                         </form>

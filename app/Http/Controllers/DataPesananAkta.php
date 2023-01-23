@@ -13,66 +13,113 @@ use Illuminate\Support\Carbon;
 
 class DataPesananAkta extends Controller
 {
-    public function jualBeli() {
+    public function jualBeli()
+    {
         $data = AkteJualBeli::with('user')->get();
         return view('admin.pages.data-pesanan.jualbeli')->with(['data' => $data]);
     }
 
-    public function komanditer() {
+    public function komanditer()
+    {
         $data = PerseroanCommanditer::with('user')->get();
         return view('admin.pages.data-pesanan.komanditer')->with(['data' => $data]);
     }
 
-    public function terbatas() {
+    public function terbatas()
+    {
         $data = PerseroanTerbatas::with('user')->get();
         $userAdmin = User::with('model_has_role')->where('id', Auth::id())->first();
 
-        return view('admin.pages.data-pesanan.terbatas')->with(['data' => $data, 'userAdmin'=> $userAdmin]);
+        return view('admin.pages.data-pesanan.terbatas')->with(['data' => $data, 'userAdmin' => $userAdmin]);
     }
 
-    public function cetakTerbatas()
+    public function cetakTerbatas(Request $request)
     {
+        $request->validate(
+            [
+                'dateStart' => 'required',
+                'dateEnd' => 'required',
+            ]
+        );
+
         $user = User::with('model_has_role')->where('id', Auth::id())->first();
 
         //notaris
-        if($user->model_has_role->model_id == 1){
-            return redirect()->back();    
+        if ($user->model_has_role->model_id == 1) {
+            return redirect()->back();
         }
 
-        $dateNow = date('d-m-Y H:i:s');  
-        $PerseroanTerbatas = PerseroanTerbatas::all()->toArray();
-        $pdf = PDF::loadView('laporan.perseroan_terbatas', ['PerseroanTerbatas'=>$PerseroanTerbatas, 'user'=> $user->toArray(), 'dateNow' => $dateNow]);
-        return $pdf->stream('commanditer.pdf');
+        $dateNowWithoutTime = date('d-m-Y');
+
+        $dateStart = Carbon::parse($request->dateStart)->toDateTimeString();
+        $dateEnd = Carbon::parse($request->dateEnd)->toDateTimeString();
+
+        $PerseroanTerbatas = PerseroanTerbatas::whereBetween('created_at', [$dateStart, $dateEnd])
+            ->get()
+            ->toArray();
+
+        $pdf = PDF::loadView('laporan.perseroan_terbatas', ['PerseroanTerbatas' => $PerseroanTerbatas, 'user' => $user->toArray(), 'dateStart' => $dateStart, 'dateEnd' => $dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
+        return $pdf->stream('Laporan perseroan Terbatas.pdf');
     }
 
-    public function cetakCommanditer()
+    public function cetakCommanditer(Request $request)
     {
+        $request->validate(
+            [
+                'dateStart' => 'required',
+                'dateEnd' => 'required',
+            ]
+        );
+
         $user = User::with('model_has_role')->where('id', Auth::id())->first();
 
         //notaris
-        if($user->model_has_role->model_id == 1){
-            return redirect()->back();    
+        if ($user->model_has_role->model_id == 1) {
+            return redirect()->back();
         }
-        
-        $dateNow = date('d-m-Y H:i:s');  
-        $perseroanCommanditer = PerseroanCommanditer::all()->toArray();
-        $pdf = PDF::loadView('laporan.perseroan_commanditer', ['perseroanCommanditer'=>$perseroanCommanditer, 'user'=> $user->toArray(), 'dateNow' => $dateNow]);
-        return $pdf->stream('commanditer.pdf');
+
+        $dateNowWithoutTime = date('d-m-Y');
+
+        $dateStart = Carbon::parse($request->dateStart)->toDateTimeString();
+        $dateEnd = Carbon::parse($request->dateEnd)->toDateTimeString();
+
+        $perseroanCommanditer = PerseroanCommanditer::whereBetween('created_at', [$dateStart, $dateEnd])
+            ->get()
+            ->toArray();
+
+        $pdf = PDF::loadView('laporan.perseroan_commanditer', ['perseroanCommanditer' => $perseroanCommanditer, 'user' => $user->toArray(), 'dateStart' => $dateStart, 'dateEnd' => $dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
+
+        return $pdf->stream('Laporan Commanditer.pdf');
     }
 
-    public function cetakJualBeli()
+    public function cetakJualBeli(Request $request)
     {
+        $request->validate(
+            [
+                'dateStart' => 'required',
+                'dateEnd' => 'required',
+            ]
+        );
+
         $user = User::with('model_has_role')->where('id', Auth::id())->first();
 
         //notaris
-        if($user->model_has_role->model_id == 1){
-            return redirect()->back();    
+        if ($user->model_has_role->model_id == 1) {
+            return redirect()->back();
         }
-        
-        $dateNow = date('d-m-Y H:i:s');  
-        $akteJualBeli = AkteJualBeli::all()->toArray();
-        $pdf = PDF::loadView('laporan.jual_beli', ['akteJualBeli'=>$akteJualBeli, 'user'=> $user->toArray(), 'dateNow' => $dateNow]);
-        return $pdf->stream('commanditer.pdf');
-    }
 
+        $dateNowWithoutTime = date('d-m-Y');
+
+        $dateStart = Carbon::parse($request->dateStart)->toDateTimeString();
+        $dateEnd = Carbon::parse($request->dateEnd)->toDateTimeString();
+
+        $akteJualBeli = AkteJualBeli::with('user')
+            ->whereBetween('created_at', [$dateStart, $dateEnd])
+            ->get()
+            ->toArray();
+
+        $pdf = PDF::loadView('laporan.jual_beli', ['akteJualBeli' => $akteJualBeli, 'user' => $user->toArray(), 'dateStart' => $dateStart, 'dateEnd' => $dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
+
+        return $pdf->stream('Laporan jual beli.pdf');
+    }
 }
