@@ -51,15 +51,13 @@ class DataPesananAkta extends Controller
 
         $dateNowWithoutTime = date('d-m-Y');
 
-        $dateStart = Carbon::parse($request->dateStart)->toDateTimeString();
-        $dateEnd = Carbon::parse($request->dateEnd)->toDateTimeString();
-
-        $PerseroanTerbatas = PerseroanTerbatas::whereBetween('created_at', [$dateStart, $dateEnd])
+        $PerseroanTerbatas = PerseroanTerbatas::whereDate('created_at', '>=', $request->dateStart)
+            ->whereDate('created_at', '<=', $request->dateEnd)
             ->get()
             ->toArray();
 
-        $pdf = PDF::loadView('laporan.perseroan_terbatas', ['PerseroanTerbatas' => $PerseroanTerbatas, 'user' => $user->toArray(), 'dateStart' => $dateStart, 'dateEnd' => $dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
-        return $pdf->stream('Laporan perseroan Terbatas.pdf');
+        $pdf = PDF::loadView('laporan.perseroan_terbatas', ['PerseroanTerbatas' => $PerseroanTerbatas, 'user' => $user->toArray(), 'dateStart' => $request->dateStart, 'dateEnd' => $request->dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
+        return $pdf->stream('Perseroan terbatas.pdf');
     }
 
     public function cetakCommanditer(Request $request)
@@ -80,16 +78,14 @@ class DataPesananAkta extends Controller
 
         $dateNowWithoutTime = date('d-m-Y');
 
-        $dateStart = Carbon::parse($request->dateStart)->toDateTimeString();
-        $dateEnd = Carbon::parse($request->dateEnd)->toDateTimeString();
-
-        $perseroanCommanditer = PerseroanCommanditer::whereBetween('created_at', [$dateStart, $dateEnd])
+        $perseroanCommanditer = PerseroanCommanditer::whereDate('created_at', '>=', $request->dateStart)
+            ->whereDate('created_at', '<=', $request->dateEnd)
             ->get()
             ->toArray();
 
-        $pdf = PDF::loadView('laporan.perseroan_commanditer', ['perseroanCommanditer' => $perseroanCommanditer, 'user' => $user->toArray(), 'dateStart' => $dateStart, 'dateEnd' => $dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
+        $pdf = PDF::loadView('laporan.perseroan_commanditer', ['perseroanCommanditer' => $perseroanCommanditer, 'user' => $user->toArray(), 'dateStart' => $request->dateStart, 'dateEnd' => $request->dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
 
-        return $pdf->stream('Laporan Commanditer.pdf');
+        return $pdf->stream('Perseroan commanditer.pdf');
     }
 
     public function cetakJualBeli(Request $request)
@@ -110,16 +106,14 @@ class DataPesananAkta extends Controller
 
         $dateNowWithoutTime = date('d-m-Y');
 
-        $dateStart = Carbon::parse($request->dateStart)->toDateTimeString();
-        $dateEnd = Carbon::parse($request->dateEnd)->toDateTimeString();
-
         $akteJualBeli = AkteJualBeli::with('user')
-            ->whereBetween('created_at', [$dateStart, $dateEnd])
+            ->whereDate('created_at', '>=', $request->dateStart)
+            ->whereDate('created_at', '<=', $request->dateEnd)
             ->get()
             ->toArray();
 
-        $pdf = PDF::loadView('laporan.jual_beli', ['akteJualBeli' => $akteJualBeli, 'user' => $user->toArray(), 'dateStart' => $dateStart, 'dateEnd' => $dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
+        $pdf = PDF::loadView('laporan.jual_beli', ['akteJualBeli' => $akteJualBeli, 'user' => $user->toArray(), 'dateStart' => $request->dateStart, 'dateEnd' => $request->dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
 
-        return $pdf->stream('Laporan jual beli.pdf');
+        return $pdf->stream('Akta jual beli.pdf');
     }
 }
