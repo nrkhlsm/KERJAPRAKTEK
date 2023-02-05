@@ -18,7 +18,7 @@ class PerseroRSA extends Controller
         } else {
             $data = PerseroanTerbatas::find($id);
         }
-
+        
        ################ start encrypt ################
        $dek = new Crypt_RSA();
        $dek->loadKey($data->privatekey);

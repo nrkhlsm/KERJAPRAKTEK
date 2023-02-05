@@ -115,10 +115,10 @@
                                     <td>
                                         @if($key->encrypt =='0')
                                         <a class="btn btn-danger btn-sm"
-                                            href="{{ route('rsa.persero.command.decyprt', [$key->id, 1]) }}">Terenkripsi</a>
+                                            href="{{ route('rsa.persero.command.decyprt', [$key->id, 2]) }}">Terenkripsi</a>
                                         @else
                                         <a class="btn btn-success btn-sm"
-                                            href="{{ route('rsa.persero.command.encrpty', [$key->id, 1]) }}">Terdekripsi</a>
+                                            href="{{ route('rsa.persero.command.encrpty', [$key->id, 2]) }}">Terdekripsi</a>
                                         @endif
                                     </td>
                                     <td>

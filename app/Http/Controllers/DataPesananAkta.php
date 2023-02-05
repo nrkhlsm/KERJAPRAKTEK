@@ -51,13 +51,16 @@ class DataPesananAkta extends Controller
 
         $dateNowWithoutTime = date('d-m-Y');
 
-        $PerseroanTerbatas = PerseroanTerbatas::whereDate('created_at', '>=', $request->dateStart)
+        $PerseroanTerbatas = PerseroanTerbatas::with('user')->whereDate('created_at', '>=', $request->dateStart)
             ->whereDate('created_at', '<=', $request->dateEnd)
+            ->where('encrypt', '1')
             ->get()
             ->toArray();
 
         $pdf = PDF::loadView('laporan.perseroan_terbatas', ['PerseroanTerbatas' => $PerseroanTerbatas, 'user' => $user->toArray(), 'dateStart' => $request->dateStart, 'dateEnd' => $request->dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
-        return $pdf->stream('Perseroan terbatas.pdf');
+        // return $pdf->stream('Perseroan terbatas.pdf');
+        return view('laporan.perseroan_terbatas')->with(['PerseroanTerbatas' => $PerseroanTerbatas, 'user' => $user->toArray(), 'dateStart' => $request->dateStart, 'dateEnd' => $request->dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
+
     }
 
     public function cetakCommanditer(Request $request)
@@ -78,14 +81,16 @@ class DataPesananAkta extends Controller
 
         $dateNowWithoutTime = date('d-m-Y');
 
-        $perseroanCommanditer = PerseroanCommanditer::whereDate('created_at', '>=', $request->dateStart)
+        $perseroanCommanditer = PerseroanCommanditer::with('user')->whereDate('created_at', '>=', $request->dateStart)
             ->whereDate('created_at', '<=', $request->dateEnd)
+            ->where('encrypt', '1')
             ->get()
             ->toArray();
 
         $pdf = PDF::loadView('laporan.perseroan_commanditer', ['perseroanCommanditer' => $perseroanCommanditer, 'user' => $user->toArray(), 'dateStart' => $request->dateStart, 'dateEnd' => $request->dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
 
-        return $pdf->stream('Perseroan commanditer.pdf');
+        // return $pdf->stream('Perseroan commanditer.pdf');
+        return view('laporan.perseroan_commanditer')->with(['perseroanCommanditer' => $perseroanCommanditer, 'user' => $user->toArray(), 'dateStart' => $request->dateStart, 'dateEnd' => $request->dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
     }
 
     public function cetakJualBeli(Request $request)
@@ -109,11 +114,14 @@ class DataPesananAkta extends Controller
         $akteJualBeli = AkteJualBeli::with('user')
             ->whereDate('created_at', '>=', $request->dateStart)
             ->whereDate('created_at', '<=', $request->dateEnd)
+            ->where('encrypt', '1')
             ->get()
             ->toArray();
 
         $pdf = PDF::loadView('laporan.jual_beli', ['akteJualBeli' => $akteJualBeli, 'user' => $user->toArray(), 'dateStart' => $request->dateStart, 'dateEnd' => $request->dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
 
-        return $pdf->stream('Akta jual beli.pdf');
+        // return $pdf->stream('Akta jual beli.pdf');
+        return view('laporan.jual_beli')->with(['akteJualBeli' => $akteJualBeli, 'user' => $user->toArray(), 'dateStart' => $request->dateStart, 'dateEnd' => $request->dateEnd, 'dateNowWithoutTime' => $dateNowWithoutTime]);
+
     }
 }

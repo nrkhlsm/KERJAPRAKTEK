@@ -434,7 +434,8 @@
                <table class="table custom-table-0 font-size-7">
                     <tr>
                          <th>No</th>
-                         <td>NAMA</td>
+                         <td>PEMOHON</td>
+                         <td>NAMA USAHA</td>
                          <th>EMAIL</th>
                          <th>KETERANGAN</th>
                          <th>KTP PIHAK 1</th>
@@ -455,19 +456,40 @@
                          @foreach ($akteJualBeli as $item)
                          <tr>
                               <td>{{ $i++ }}</td>
+                              <td>{{ $item['user']['name'] }}</td>
                               <td>{{ $item['jenis_barang'] }}</td>
                               <td>{{ $item['user']['email'] }}</td>
                               <td>{{ $item['keterangan'] }}</td>
-                              <td>Uploaded</td>
-                              <td>Uploaded</td>
-                              <td>Uploaded</td>
-                              <td>Uploaded</td>
-                              <td>Uploaded</td>
-                              <td>Uploaded</td>
-                              <td>Uploaded</td>
-                              <td>Uploaded</td>
-                              <td>Uploaded</td>
-                              <td>Uploaded</td>
+                              <td style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/ktp/'.$item['ktp_pihak_satu']) }}" alt="">
+                              </td>
+                              <td style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/kk/'.$item['kk_pihak_satu']) }}" alt="">
+                              </td>
+                              <td style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/akta_kawin/'.$item['akta_perkawinan']) }}" alt="">
+                              </td>
+                              <td style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/npwp/'.$item['npwp']) }}" alt="">
+                              </td>
+                              <td style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/skbri/'.$item['skbri']) }}" alt="">
+                              </td>
+                              <td style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/ganti_nama/'.$item['ganti_nama']) }}" alt="">
+                              </td>
+                              <td style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/ktp/'.$item['ktp_pihak_dua']) }}" alt="">
+                              </td>
+                              <td style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/kk/'.$item['kk_pihak_dua']) }}" alt="">
+                              </td>
+                              <td style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/sertifikat_tanah/'.$item['sertifikat_tanah']) }}" alt="">
+                              </td>
+                              <td style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/spt_pbb/'.$item['spt_pbb']) }}" alt="">
+                              </td>
                          </tr>
                          @endforeach
                     </tbody>
@@ -495,5 +517,9 @@
                     </tbody>
                </table>
 </body>
+
+<script>
+         window.print();
+</script>
 
 </html>

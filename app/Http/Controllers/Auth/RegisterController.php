@@ -69,8 +69,11 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            ])->assignRole('admin');
+            ])->assignRole('pemohon');
+
+            return redirect(route('login'));
     }
+
     public function registerPemohon(Request $request)
     {
 

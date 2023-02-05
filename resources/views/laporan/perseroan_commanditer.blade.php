@@ -434,7 +434,8 @@
                <table class="table custom-table-0 font-size-7">
                     <tr>
                          <th>No</th>
-                         <th>Nama</th>
+                         <td>Pemohon</td>
+                         <th>Nama Usaha</th>
                          <th>Alamat</th>
                          <th>KTP</th>
                          <th>NPWP PRIBADI</th>
@@ -446,10 +447,15 @@
                          @foreach ($perseroanCommanditer as $item)
                          <tr>
                               <td>{{ $i++ }}</td>
+                              <td>{{ $item['user']['name'] }}</td>
                               <td>{{ $item['nama_pt'] }}</td>
                               <td>{{ $item['alamat'] }}</td>
-                              <td>Uploaded</td>
-                              <td>Uploaded</td>
+                              <td style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/ktp/'.$item['ktp']) }}" alt="">
+                              </td>
+                              <td  style="text-align: center">
+                                   <img width="60" src="{{ asset('asset/npwp/'.$item['npwp_pribadi']) }}" alt="">
+                              </td>
                          </tr>
                          @endforeach
                     </tbody>
@@ -477,5 +483,7 @@
                     </tbody>
                </table>
 </body>
-
+<script>
+     window.print();
+</script>
 </html>
